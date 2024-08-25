@@ -1,11 +1,14 @@
 package ifpb.edu.br.entidades;
 
 public class Disciplina {
-    String nome;
+    private String nomeDisciplina;
+    private Professor professor;
 
-    public Disciplina(String nome) {
-        this.nome = nome;
+    public Disciplina(String nome, Professor professor) {
+        this.nomeDisciplina = nome;
+        this.professor = professor;
     }
 
-    public String getNome() { return nome; }
+    public String getNomeDisciplina() { return nomeDisciplina; }
+    public Professor getProfessor() { return professor; }
 }

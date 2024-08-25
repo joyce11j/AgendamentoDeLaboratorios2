@@ -9,7 +9,7 @@ public class TelaLogin extends JPanel {
     private JLabel labelMatricula;
     private JLabel labelSenha;
     private JTextField textMatricula;
-    private JPasswordField textSenha;
+    private JPasswordField textSenha; // Correto
     private JButton btnEntrar;
     private JButton btnCadastrar;
 
@@ -26,51 +26,54 @@ public class TelaLogin extends JPanel {
 
         labelMatricula = new JLabel("Matrícula:");
         textMatricula = new JTextField(15);
+
         labelSenha = new JLabel("Senha:");
         textSenha = new JPasswordField(15);
+
         btnEntrar = new JButton("Entrar");
         btnEntrar.setBackground(new Color(0x9D1888));
         btnEntrar.setForeground(new Color(0xFFFFFF));
+
         btnCadastrar = new JButton("Cadastrar");
         btnCadastrar.setBackground(new Color(0x9D1888));
         btnCadastrar.setForeground(new Color(0xFFFFFF));
 
         // Layout dos componentes
-        c.insets = new Insets(10, 10, 10, 10);  // Espaçamento entre componentes
+        c.insets = new Insets(10, 10, 10, 10);
 
         // Configuração do título
         c.gridx = 0;
         c.gridy = 0;
-        c.gridwidth = 2;  // Título ocupa duas colunas
-        c.anchor = GridBagConstraints.CENTER;  // Centralizar o título
+        c.gridwidth = 2;
+        c.anchor = GridBagConstraints.CENTER;
         this.add(labelTitulo, c);
 
         // Configuração da matrícula
         c.gridx = 0;
         c.gridy = 1;
-        c.gridwidth = 1;  // Restabelecer a largura para os componentes seguintes
-        c.anchor = GridBagConstraints.LINE_END;  // Alinhar o rótulo à direita
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.LINE_END;
         this.add(labelMatricula, c);
 
         c.gridx = 1;
-        c.anchor = GridBagConstraints.LINE_START;  // Alinhar o campo de texto à esquerda
+        c.anchor = GridBagConstraints.LINE_START;
         this.add(textMatricula, c);
 
         // Configuração da senha
         c.gridx = 0;
         c.gridy = 2;
-        c.anchor = GridBagConstraints.LINE_END;  // Alinhar o rótulo à direita
+        c.anchor = GridBagConstraints.LINE_END;
         this.add(labelSenha, c);
 
         c.gridx = 1;
-        c.anchor = GridBagConstraints.LINE_START;  // Alinhar o campo de texto à esquerda
+        c.anchor = GridBagConstraints.LINE_START;
         this.add(textSenha, c);
 
         // Configuração dos botões
         c.gridx = 0;
         c.gridy = 3;
-        c.gridwidth = 2;  // Botões ocupam duas colunas
-        c.anchor = GridBagConstraints.CENTER;  // Centralizar os botões
+        c.gridwidth = 2;
+        c.anchor = GridBagConstraints.CENTER;
         JPanel buttonPanel = new JPanel(new FlowLayout());
         buttonPanel.add(btnEntrar);
         buttonPanel.add(btnCadastrar);
@@ -90,9 +93,11 @@ public class TelaLogin extends JPanel {
             }
         });
     }
+
     public void addEntrarListener(ActionListener listener) {
         btnEntrar.addActionListener(listener);
     }
+
     public void addCadastrarListener(ActionListener listener) {
         btnCadastrar.addActionListener(listener);
     }

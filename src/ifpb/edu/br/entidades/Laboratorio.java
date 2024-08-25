@@ -1,5 +1,7 @@
 package ifpb.edu.br.entidades;
 
+import ifpb.edu.br.entidades.BlocoDeHorario;
+
 import java.util.List;
 
 public class Laboratorio {

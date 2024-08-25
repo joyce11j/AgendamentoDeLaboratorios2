@@ -36,8 +36,8 @@ public class Professor {
         return disciplinas;
     }
 
-    public void setDisciplinas(Disciplina disciplinas) {
-        this.disciplinas = (List<Disciplina>) disciplinas;
+    public void setDisciplinas(List<Disciplina> disciplinas) {
+        this.disciplinas = disciplinas;
     }
 
     public String getSenha() {

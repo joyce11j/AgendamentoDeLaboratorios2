@@ -12,7 +12,9 @@ public class TelaCadastro extends JPanel {
     private JLabel labelNome;
     private JLabel labelSenha;
     private JLabel labelDisciplina;
+    private JLabel labelProfessor;
     private JTextField textDisciplina;
+    private JTextField textProfessor; // Campo para o nome do professor
     private List<Disciplina> disciplinas;
     private JTextField textMatricula;
     private JTextField textNome;
@@ -34,16 +36,19 @@ public class TelaCadastro extends JPanel {
         JLabel labelTitulo = new JLabel("Cadastro");
 
         labelNome = new JLabel("Nome:");
-        textNome = new JTextField(15); // Tamanho fixo para o JTextField
+        textNome = new JTextField(15);
 
         labelMatricula = new JLabel("Matrícula:");
-        textMatricula = new JTextField(15); // Tamanho fixo para o JTextField
+        textMatricula = new JTextField(15);
 
         labelSenha = new JLabel("Senha:");
-        textSenha = new JPasswordField(15); // Tamanho fixo para o JPasswordField
+        textSenha = new JPasswordField(15);
 
-        labelDisciplina = new JLabel("Disciplina: ");
-        textDisciplina = new JTextField(15); // Tamanho fixo para o JTextField
+        labelDisciplina = new JLabel("Disciplina:");
+        textDisciplina = new JTextField(15);
+
+        labelProfessor = new JLabel("Professor:"); // Novo rótulo para o nome do professor
+        textProfessor = new JTextField(15); // Novo campo para o nome do professor
 
         btnAdicionar = new JButton("+");
         btnAdicionar.setBackground(new Color(0x9D1888));
@@ -53,28 +58,28 @@ public class TelaCadastro extends JPanel {
         btnCadastrar.setBackground(new Color(0x9D1888));
         btnCadastrar.setForeground(new Color(0xFFFFFF));
 
-        areaDescricao = new JTextArea(10, 20);  // Inicializar a JTextArea com tamanho fixo
-        areaDescricao.setEditable(false);  // Tornar não editável
-        areaDescricao.setLineWrap(true);   // Quebra de linha automática
+        areaDescricao = new JTextArea(10, 20);
+        areaDescricao.setEditable(false);
+        areaDescricao.setLineWrap(true);
         areaDescricao.setWrapStyleWord(true);
 
         // Configuração do título
-        c.insets = new Insets(10, 10, 10, 10); // Margens ao redor dos componentes
+        c.insets = new Insets(10, 10, 10, 10);
         c.gridx = 0;
         c.gridy = 0;
         c.gridwidth = 2;
-        c.anchor = GridBagConstraints.CENTER; // Centralizar o título
+        c.anchor = GridBagConstraints.CENTER;
         this.add(labelTitulo, c);
 
         // Configuração do nome
         c.gridx = 0;
         c.gridy = 1;
-        c.gridwidth = 1; // quantidade de colunas ocupadas
-        c.anchor = GridBagConstraints.LINE_END; // Alinhar o rótulo à direita
+        c.gridwidth = 1;
+        c.anchor = GridBagConstraints.LINE_END;
         this.add(labelNome, c);
 
         c.gridx = 1;
-        c.anchor = GridBagConstraints.LINE_START; // Alinhar o campo de texto à esquerda
+        c.anchor = GridBagConstraints.LINE_START;
         this.add(textNome, c);
 
         // Configuração da matrícula
@@ -107,6 +112,16 @@ public class TelaCadastro extends JPanel {
         c.anchor = GridBagConstraints.LINE_START;
         this.add(textDisciplina, c);
 
+        // Configuração do professor
+        c.gridx = 0;
+        c.gridy = 5;
+        c.anchor = GridBagConstraints.LINE_END;
+        this.add(labelProfessor, c);
+
+        c.gridx = 1;
+        c.anchor = GridBagConstraints.LINE_START;
+        this.add(textProfessor, c);
+
         // Configuração do botão adicionar
         c.gridx = 2;
         c.gridy = 4;
@@ -116,7 +131,7 @@ public class TelaCadastro extends JPanel {
 
         // Configuração da área de descrição
         c.gridx = 0;
-        c.gridy = 5;
+        c.gridy = 6;
         c.gridwidth = 3;
         c.anchor = GridBagConstraints.CENTER;
         c.fill = GridBagConstraints.BOTH;
@@ -124,9 +139,9 @@ public class TelaCadastro extends JPanel {
 
         // Configuração do botão cadastrar
         c.gridx = 0;
-        c.gridy = 6;
-        c.gridwidth = 2; // Botão ocupa duas colunas
-        c.anchor = GridBagConstraints.CENTER; // Centralizar o botão
+        c.gridy = 7;
+        c.gridwidth = 2;
+        c.anchor = GridBagConstraints.CENTER;
         this.add(btnCadastrar, c);
 
         // Adicionar ação ao botão adicionar
@@ -134,13 +149,18 @@ public class TelaCadastro extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String nomeDisciplina = textDisciplina.getText().trim();
-                if (!nomeDisciplina.isEmpty()) {
-                    Disciplina novaDisciplina = new Disciplina(nomeDisciplina);
+                String nomeProfessor = textProfessor.getText().trim(); // Obtém o nome do professor
+
+                if (!nomeDisciplina.isEmpty() && !nomeProfessor.isEmpty()) {
+                    // Criação de um Professor com matrícula padrão
+                    Professor professor = new Professor("MATRICULA_PADRAO", nomeProfessor);
+                    Disciplina novaDisciplina = new Disciplina(nomeDisciplina, professor);
                     disciplinas.add(novaDisciplina);
-                    areaDescricao.append(novaDisciplina.getNome() + "\n");  // Exibir disciplina na JTextArea
-                    textDisciplina.setText("");  // Limpar o campo de texto após adicionar
+                    areaDescricao.append(novaDisciplina.getNomeDisciplina() + " - " + professor.getNome() + "\n");
+                    textDisciplina.setText("");
+                    textProfessor.setText("");
                 } else {
-                    JOptionPane.showMessageDialog(TelaCadastro.this, "Por favor, insira o nome da disciplina.");
+                    JOptionPane.showMessageDialog(TelaCadastro.this, "Por favor, insira o nome da disciplina e do professor.");
                 }
             }
         });

@@ -23,7 +23,6 @@ public class TelaPrincipal extends JPanel {
     public void configurar() {
         jPanel = new JPanel();
         jPanel.setLayout(new FlowLayout());
-
         btnAnterior = new JButton("<");
         btnPosterior = new JButton(">");
 
