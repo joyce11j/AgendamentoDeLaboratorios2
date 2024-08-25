@@ -1,11 +1,6 @@
 package ifpb.edu.br.entidades;
-
-import ifpb.edu.br.entidades.CalendarioSemanal;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class JanelaCalendario extends JPanel {
     private CalendarioSemanal calendario;
@@ -21,6 +16,11 @@ public class JanelaCalendario extends JPanel {
         panel.setLayout(new GridLayout(7, 6));
 
         JPanel navegacaoPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        JButton btnSemAnt = new JButton("Semana Anterior");
+        JButton btnProxSem = new JButton("Próxima Semana");
+
+        navegacaoPanel.add(btnSemAnt);
+        navegacaoPanel.add(btnProxSem);
 
         panel.add(new JLabel("Horário/Dia", SwingConstants.CENTER));
 
@@ -30,7 +30,7 @@ public class JanelaCalendario extends JPanel {
             panel.add(labelsDias[i]);
         }
 
-        String[] horarios = {"07:00h - 07:50h", "07:50h - 08:40h", "08:40h - 09:30h", "09:50h - 10:40h",
+        String[] horarios = {"07:00h - 7:50h", "7:50h - 08:40h", "08:40h - 09:30h", "09:50h - 10:40h",
                 "10:40h - 11:30h", "11:30h - 12:20h"};
 
         for (int i = 0; i < horarios.length; i++) {
@@ -41,39 +41,64 @@ public class JanelaCalendario extends JPanel {
                 JButton botao = new JButton(" ");
                 boolean ocupado = calendario.getBlocoAtual().getHorario(i, j);
                 botao.setBackground(ocupado ? Color.RED : Color.GREEN);
-                botao.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        JButton acaoCor = (JButton) e.getSource();
-                        if (acaoCor.getBackground().equals(Color.GREEN)) {
-                            acaoCor.setBackground(Color.RED);
-                        } else {
-                            acaoCor.setBackground(Color.GREEN);
-                        }
+                int finalI = i;
+                int finalJ = j;
+                botao.addActionListener(e -> {
+                    JButton acaoCor = (JButton) e.getSource();
+                    int linha = finalI;
+                    int coluna = finalJ;
+                    if (acaoCor.getBackground().equals(Color.GREEN)) {
+                        acaoCor.setBackground(Color.RED);
+                        calendario.getBlocoAtual().setHorario(linha, coluna, true);
+                    } else {
+                        acaoCor.setBackground(Color.GREEN);
+                        calendario.getBlocoAtual().setHorario(linha, coluna, false);
                     }
                 });
                 panel.add(botao);
             }
         }
 
+        btnSemAnt.addActionListener(e -> {
+            calendario.semanaAnterior();
+            atualizarDiasDaSemana();
+            atualizarBlocos();
+        });
+
+        btnProxSem.addActionListener(e -> {
+            calendario.proximaSemana();
+            atualizarDiasDaSemana();
+            atualizarBlocos();
+        });
+
         this.add(navegacaoPanel, BorderLayout.NORTH);
         this.add(panel, BorderLayout.CENTER);
-
         atualizarDiasDaSemana();
+        atualizarBlocos();
     }
 
-    public void atualizarDiasDaSemana() {
+    protected void atualizarDiasDaSemana() {
         String[] diasAtualizados = calendario.getDiasDaSemana();
         for (int i = 0; i < labelsDias.length; i++) {
             labelsDias[i].setText(diasAtualizados[i]);
         }
     }
 
-    public void mostrar() {
-        this.setVisible(true);
-    }
+    private void atualizarBlocos() {
+        Component[] componentes = ((JPanel) this.getComponent(1)).getComponents();
+        BlocoDeHorario blocoAtual = calendario.getBlocoAtual();
 
-    public static void main(String[] args) {
-        JanelaCalendario janela = new JanelaCalendario(new CalendarioSemanal());
-        janela.mostrar();
+        int indice = 0;
+
+        for (Component componente : componentes) {
+            if (componente instanceof JButton) {
+                int linha = (indice / 5) % 6;
+                int coluna = indice % 5;
+                JButton botao = (JButton) componente;
+                boolean ocupado = blocoAtual.getHorario(linha, coluna);
+                botao.setBackground(ocupado ? Color.RED : Color.GREEN);
+                indice++;
+            }
+        }
     }
 }

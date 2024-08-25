@@ -19,9 +19,10 @@ public class Laboratorio {
     }
 
     public boolean horarioDisponivel(int horario, int dia){
-        return true;
+        return blocosDeHorarios.get(0).getHorario(horario, dia);
     }
-    public void reservarHorario(int horario, int dia){
 
+    public void reservarHorario(int horario, int dia){
+        blocosDeHorarios.get(0).setHorario(horario, dia, true);
     }
 }

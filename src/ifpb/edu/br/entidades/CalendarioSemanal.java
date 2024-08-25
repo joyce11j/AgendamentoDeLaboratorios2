@@ -5,34 +5,20 @@ import java.util.Calendar;
 import java.util.List;
 
 public class CalendarioSemanal {
-    private Calendar calendar;
-    private List<BlocoDeHorario> blocos;
+    private List<BlocoDeHorario> blocosDeHorario;
     private int semanaAtual;
 
     public CalendarioSemanal() {
-        calendar = Calendar.getInstance();
-        blocos = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            blocos.add(new BlocoDeHorario());
+        blocosDeHorario = new ArrayList<>();
+        for (int i = 0; i < 52; i++) {
+            blocosDeHorario.add(new BlocoDeHorario());
         }
-        semanaAtual = 0;
-    }
-
-    public String[] getDiasDaSemana() {
-        String[] dias = {"Segunda", "Terça", "Quarta", "Quinta", "Sexta"};
-        Calendar tempCalendar = (Calendar) calendar.clone();
-        tempCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        String[] diasComNumeros = new String[dias.length];
-
-        for (int i = 0; i < dias.length; i++) {
-            diasComNumeros[i] = dias[i] + " - " + tempCalendar.get(Calendar.DAY_OF_MONTH);
-            tempCalendar.add(Calendar.DATE, 1);
-        }
-        return diasComNumeros;
+        Calendar calendar = Calendar.getInstance();
+        semanaAtual = calendar.get(Calendar.WEEK_OF_YEAR) - 1;
     }
 
     public BlocoDeHorario getBlocoAtual() {
-        return blocos.get(semanaAtual);
+        return blocosDeHorario.get(semanaAtual);
     }
 
     public void semanaAnterior() {
@@ -42,9 +28,22 @@ public class CalendarioSemanal {
     }
 
     public void proximaSemana() {
-        if (semanaAtual < blocos.size() - 1) {
+        if (semanaAtual < 51) {
             semanaAtual++;
         }
     }
-}
 
+    public String[] getDiasDaSemana() {
+        String[] dias = {"Segunda", "Terça", "Quarta", "Quinta", "Sexta"};
+        Calendar tempCalendar = Calendar.getInstance();
+        tempCalendar.set(Calendar.WEEK_OF_YEAR, semanaAtual + 1);
+        tempCalendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+
+        for (int i = 0; i < dias.length; i++) {
+            String diaComNumero = dias[i] + " - " + tempCalendar.get(Calendar.DAY_OF_MONTH);
+            dias[i] = diaComNumero;
+            tempCalendar.add(Calendar.DATE, 1);
+        }
+        return dias;
+    }
+}
